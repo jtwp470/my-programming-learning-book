@@ -1,0 +1,8 @@
+# gitignore
+# Python
+*.py[coa]
+__pycache__/
+
+# C C++
+a.out
+*.[oa]
