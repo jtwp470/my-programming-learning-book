@@ -1,0 +1,218 @@
+\documentclass[11pt,a4j]{jarticle}
+% 利用するパッケージの選択
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{ascmac}
+\usepackage{color}
+% 余白の設定
+\usepackage[top=20truemm,bottom=20truemm,left=10truemm,right=10truemm]{geometry}
+
+% listings.styの設定 要jlistings.sty
+\usepackage{listings,jlisting}
+\usepackage{courier}
+\lstset{
+  language={Caml},% 使用言語
+  basicstyle={\ttfamily},% 書体の設定
+  identifierstyle={\small},% 
+  commentstyle={\small\itshape\color[cmyk]{1,0.4,1,0}},% 注釈の書体
+  keywordstyle={\small\bfseries\color[cmyk]{0,1,0,0}},% キーワードの書体
+  ndkeywordstyle={\small},% 
+  stringstyle={\small\ttfamily\color[rgb]{0,0,1}},
+  frame={single},
+  breaklines=true,% 行が長い時の改行
+  columns=[l]{fullflexible},%
+  numbers=left,% 
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,% 行番号増分
+  numbersep=1zw,
+  lineskip=-0.5ex,
+  showstringspaces=false % 空白に文字を表示させない
+}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 要編集
+\title{ミニプロジェクト}
+\author{201311367　佐藤良祐}
+\西暦
+\date{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+
+% headers & footers
+\lhead{ソフトウェア技法　\@title　\@author \@date}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage /\pageref{LastPage}}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\makeatother
+
+\begin{document}
+\section*{1}
+変数,整数,加算,乗算から構成された式を下のデータ型で示す.
+\begin{lstlisting}
+type exp =
+  Var of string       (* 変数 *)
+  | Int of int        (* 整数 *)
+  | Add of exp * exp  (* 加算 *)
+  | Mul of exp * exp  (* 乗算 *)
+\end{lstlisting}
+例えば次のOCamlの式は$(x+y)(y+2)$を示している.
+\begin{verbatim}
+Mul (Add (Var "x", Var "y"), Add (Var "y", Int 2))    
+\end{verbatim}
+
+  \subsection*{(a)このデータ型で表された式に対して記号的に微分を行う関数を
+  かけ.}
+  まず記号的に微分を行うプログラムをソースコード\ref{code:1a}に示す.
+
+  このとき微分はまず整数の時は0を返せばよい.そして変数が来た時は例えば
+  $x$で微分したい時に$x$のみがくれば1を返し,$y$など$x$以外の変数の時は0
+  を返すようにする.さらに$(f(x) + g(x))' = f'(x) + g'(x)$を
+  返す.積のときはヒントにあるように$(f(x)g(x))' = f'(x)g(x) + f(x)g'(x)$
+  であるのでそのように計算するように定義すれば記号的な微分を行うことがで
+  きる.
+
+  \lstinputlisting[caption=記号的に微分を行うプログラム,label=code:1a]{./1-a.ml}
+\begin{lstlisting}[caption=記号的微分を行うプログラムを実行した結果]
+# deriv (Mul (Add (Var "x", Var "y"), Add (Var "y", Int 2))) "x";;
+- : exp =
+Add (Mul (Add (Var "x", Var "y"), Add (Int 0, Int 0)),
+ Mul (Add (Var "y", Int 2), Add (Int 1, Int 0)))
+# deriv (Mul (Add (Var "x", Int 1), Add (Var "x", Int 2))) "x";; deriv (Mul (Add (Var "x", Int 1), Add (Var "x", Int 2))) "x";;
+- : exp =
+Add (Mul (Add (Var "x", Int 1), Add (Int 1, Int 0)),
+ Mul (Add (Var "x", Int 2), Add (Int 1, Int 0)))
+\end{lstlisting}
+  \subsection*{(b)(a)で定義した微分を行う関数を拡張し単純化した答えを返
+  すようにせよ}
+  単純化するために加算と乗算を行うとき単純化した答えを返す補助関数を定義
+  して微分するようにする.(ソースコード\ref{code:1b})
+  \lstinputlisting[caption=単純化した答えを返すようにする,label=code:1b]{./1-b.ml}
+   \begin{lstlisting}[caption=実行結果]
+# deriv (Mul (Add (Var "x", Var "y"), Add (Var "y", Int 2))) "x";;
+- : exp = Add (Var "y", Int 2)
+# deriv (Mul (Add (Var "x", Int 1), Add (Var "x", Int 2))) "x";; deriv (Mul (Add (Var "x", Int 1), Add (Var "x", Int 2))) "x";;
+- : exp = Add (Add (Var "x", Int 1), Add (Var "x", Int 2))    
+   \end{lstlisting}
+  \subsection*{(c)扱える式を$e^n$の形の式で拡張せよ.}
+  ここで$e$は任意の式であり$n$は非負の整数とする.なお私はこの部分では(b)
+  で実装した単純化はしていない.冪乗の微分の定義は
+  \[x^n = nx^{n-1}\]
+  であるからこれを追加すれば良い.(ソースコード\ref{code:1c})
+  \lstinputlisting[caption=冪乗を追加したもの,label=code:1c]{./1-c.ml}
+\begin{lstlisting}[caption=実行結果]
+# deriv (Exp (Add (Var "x", Int 1), 2)) "x";;
+- : exp =
+Mul (Int 2, Mul (Exp (Add (Var "x", Int 1), 1), Add (Int 1, Int 0)))
+\end{lstlisting}
+
+\section*{2}
+上で考えた式($e^n$は含めない)を多項式に展開する問題を考える.下の形の式を
+変数$x_1, x_2, \ldots , x_k$上の単項式と呼ぶ.
+
+\[cx_{1}^{n_1}x_{2}^{n_2}\cdots x_{k}^{n_k}\]
+
+ここで$c$は変数, $n_1, n_2, \ldots , n_k$は非数の整数とする.単項式は和の
+形の式をここでは多項式とする.
+
+2番はすべて1つのソースコードにまとめてしまったのでまず先にソースコード
+\ref{code:2}に2番の課題すべてのソースコードを示す.
+\lstinputlisting[caption=2番のソースコード,label=code:2]{./2.ml}
+\subsection*{(a)}
+$n$変数の単項式を整数と長さ$n$の非負整数のリスト組として表す.たとえば以
+下は$5x^2y^0z^4$を表している.
+
+\begin{lstlisting}
+# (5, [2; 0; 4])
+\end{lstlisting}
+
+ここで2つの単項式に関してその積を表す単項式を関数を書く.
+
+さて実装の方法としてはまず上の例で言う5の部分(つまり係数)は積の場合かけ
+る事を行う.次に冪乗の部分に関しては各値のときで足し算を行う.OCamlでは基
+本的にリストをインデックスでアクセスすることができないのでなかなか難しかっ
+たがListにmap2というものがありこれを用いることで実現できた.map2は例えば2
+つのリスト\verb|[a; b; c], [d; e; f]|とすると関数\verb|g|を用いてリスト\verb
+|[g a d; g b e; g c f]|のような処理を行ってくれるのでここで足し算を行え
+ば良い.
+
+\begin{lstlisting}[caption=実行結果]
+# mul_mono (2, [2; 0; 3]) (3, [1; 2; 1]);;
+- : int * int list = (6, [3; 2; 4])
+\end{lstlisting}
+これは$2x^2y^0z^3 \cdot 3x^1y^2z^1 = 6x^3y^2z^4$を示している.
+\subsection*{(b)}
+次に単項式のリストで表すようにして単項式と多項式の積を多項式として返す関
+数を考える.実装の方針としては単項式は多項式に属するすべての単項式にかけ
+ることになるのでそのような処理を行えば良い.それには単項式と単項式の積を
+返す関数(aで作成した\verb|mul_mono|)を使えば良い.
+
+以下は$2x^2y^0z^3 (2x^2y^0z^3 + 3x^1y^2z^1) = 4x^4y^0z^6 + 6x^3y2z^4$の結
+果を示している.
+
+\begin{lstlisting}[caption=実行結果]
+# mul_mono_poly (2, [2; 0; 3]) [(2, [2; 0; 3]); (3, [1; 2; 1])];;
+- : (int * int list) list = [(4, [4; 0; 6]); (6, [3; 2; 4])]
+\end{lstlisting}
+\subsection*{(c)}
+次に多項式をリストで表現するときに(係数を無視した)単項式の順番を
+\verb|mono_le|という関数で定義してその定義順で並べられた多項式の和を返す
+関数を書く.
+
+処理の概要としてはまず係数を無視した単項式の順番が一致する場合は係数のみ
+を足し算すればよい.一致しない場合は\verb|mono_le|で順番を調べ順番で計算
+されるように処理を行うことでこの関数を実現することができる.
+
+\begin{lstlisting}[caption=実行結果]
+# add_poly [(2,[0; 0]); (1, [1; 0]); ] [(2, [1; 0]); (3, [1; 2]); ];;
+- : (int * int list) list = [(2, [0; 0]); (3, [1; 0]); (3, [1; 2])]  
+\end{lstlisting}
+
+これは$(2x^0y^0 + x^1y^0) + (2x^1y^0 + 3x^1y^2) = 2x^0y^0 + 3x^1y^0 +
+3x^1y^2$を示している.
+\subsection*{(d)}
+(c)と同じ単項式の順序を仮定し,2つの多項式の積を表す多項式を返す関数を作
+成する.これには(c)で作成した関数を利用する.2つの多項式ではたとえば
+$(x+y)^2$の場合$(x+y)(x+y) = x(x + y) + y(x + y)$のように単項式と多項式
+の積の足し算のように分解される.つまり(b)で作成した単項式と多項式の積を求
+める関数と(c)で作成した多項式同士を加算する関数を組み合わせればよい.
+\begin{lstlisting}[caption=実行結果]
+# mul_poly [(1, [0; 1]); (1, [1; 0])] [(1, [0; 1]); (1, [1; 0])];;
+- : (int * int list) list = [(1, [0; 2]); (2, [1; 1]); (1, [2; 0])]
+\end{lstlisting}
+\subsection*{(e)}
+最後に課題1の型\verb|exp|で表された式を展開して多項式に変換する関数を書
+く.
+
+これを実現するには課題1の型expにあるうちIntとVarを処理する関数を用意する
+必要がある.まずIntは係数である.もしも係数だけの場合は次のように表されな
+ければならない.
+
+\[ax^0y^0 (aは係数,x,yは変数)\]
+
+なのでこのような変換を行う関数\verb|initialize_list|を定義した.
+
+次にVarの場合は与えられるVarが変数リスト内に含まれていれば1, 含まれてい
+なければ0を返し先ほどと同じようなリストを返すような関数を定義する.これを
+行うことでVarを処理できる.
+
+以上のような関数を用意すればあとのAdd, Mulに関しては(c), (d)で作成した関
+数を組み合わせて利用すれば実現することができる.
+\begin{lstlisting}[caption=実行結果]
+exp2poly (Int 3) ["x"; "y"];;
+- : (int * int list) list = [(3, [0; 0])]
+exp2poly (Var "y") ["x"; "y"; "z"];;
+- : (int * int list) list = [(1, [0; 1; 0])]
+exp2poly (Mul (Add (Var "x", Var "y"), Add (Var "x", Var "y"))) ["x"; "y"];;
+- : (int * int list) list = [(1, [0; 2]); (2, [1; 1]); (1, [2; 0])]
+\end{lstlisting}
+\end{document}

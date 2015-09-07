@@ -1,3 +1,3 @@
-# Pythonのお勉強
+# Python
 
 http://nbviewer.ipython.org/github/jtwp470/my-programming-learning-book/tree/master/python/Python_Funcs.ipynb/

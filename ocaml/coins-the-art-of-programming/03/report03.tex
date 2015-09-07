@@ -1,0 +1,112 @@
+\documentclass[11pt,a4j]{jarticle}
+% 利用するパッケージの選択
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{ascmac}
+\usepackage{color}
+% 余白の設定
+\usepackage[top=20truemm,bottom=20truemm,left=10truemm,right=10truemm]{geometry}
+
+% listings.styの設定 要jlistings.sty
+\usepackage{listings,jlisting}
+\usepackage{courier}
+\lstset{
+  language={Caml},% 使用言語
+  basicstyle={\ttfamily},% 書体の設定
+  identifierstyle={\small},% 
+  commentstyle={\small\itshape\color[cmyk]{1,0.4,1,0}},% 注釈の書体
+  keywordstyle={\small\bfseries\color[cmyk]{0,1,0,0}},% キーワードの書体
+  ndkeywordstyle={\small},% 
+  stringstyle={\small\ttfamily\color[rgb]{0,0,1}},
+  frame={single},
+  breaklines=true,% 行が長い時の改行
+  columns=[l]{fullflexible},%
+  numbers=left,% 
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,% 行番号増分
+  numbersep=1zw,
+  lineskip=-0.5ex,
+  showstringspaces=false % 空白に文字を表示させない
+}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 要編集
+\title{第3回}
+\author{201311367　佐藤良祐}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+
+% headers & footers
+\lhead{ソフトウェア技法　\@title　\@author}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage /\pageref{LastPage}}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\makeatother
+
+\begin{document}
+\subsection*{課題3.1}
+\lstinputlisting{./kadai31.ml}
+実行結果
+\begin{lstlisting}
+# num_of ([4; 3; 2; 3; 4; 3], 3);;
+- : int = 3
+# num_of' ([4; 3; 2; 3; 4; 3], 3);;
+- : int = 3
+# num_of ([4; 3; 2; 3; 4; 3], 4);;
+- : int = 2
+# num_of' ([4; 3; 2; 3; 4; 3], 4);;
+- : int = 2
+\end{lstlisting}
+\subsection*{課題3.2}
+\lstinputlisting{./kadai32.ml}
+実行結果
+\begin{lstlisting}
+# sum_pair' [-2; 0; 3; -1; 2; 1];;
+- : int * int = (-3, 6)
+# sum_pair' [1; 2; 3; -4; 5; 6];;
+- : int * int = (-4, 17)
+# sum_pair' [-2; 0; 3; 1; 2; 1];;
+- : int * int = (-2, 7)
+\end{lstlisting}
+\newpage
+\subsection*{課題3.3}
+\lstinputlisting{./kadai33.ml}
+実行結果
+\begin{lstlisting}
+# msort [4; 5; 2; 1];;
+- : int list = [1; 2; 4; 5]
+# msort [10; 9; 8; 7; 6; 5; 4; 3; 2; 1];;
+- : int list = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10] 
+\end{lstlisting}
+\newpage
+
+\subsection*{課題3.4}
+\lstinputlisting{./kadai34.ml}
+実行結果
+\begin{lstlisting}
+# fib 10;;
+- : int = 55
+# fib 20;;
+- : int = 6765
+# fib 30;;
+- : int = 832040
+# fib 40;;
+- : int = 102334155
+# fib2 10;;
+- : int * int = (55, 89)
+# fib2 11;;
+- : int * int = (89, 144)
+# fib2 12;;
+- : int * int = (144, 233)
+\end{lstlisting}
+\end{document}

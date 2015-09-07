@@ -1,0 +1,88 @@
+\documentclass[11pt,a4j]{jarticle}
+% 利用するパッケージの選択
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{ascmac}
+\usepackage{color}
+% 余白の設定
+\usepackage[top=20truemm,bottom=20truemm,left=10truemm,right=10truemm]{geometry}
+
+% listings.styの設定 要jlistings.sty
+\usepackage{listings,jlisting}
+\usepackage{courier}
+\lstset{
+  language={Caml},% 使用言語
+  basicstyle={\ttfamily},% 書体の設定
+  identifierstyle={\small},% 
+  commentstyle={\small\itshape\color[cmyk]{1,0.4,1,0}},% 注釈の書体
+  keywordstyle={\small\bfseries\color[cmyk]{0,1,0,0}},% キーワードの書体
+  ndkeywordstyle={\small},% 
+  stringstyle={\small\ttfamily\color[rgb]{0,0,1}},
+  frame={single},
+  breaklines=true,% 行が長い時の改行
+  columns=[l]{fullflexible},%
+  numbers=left,% 
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,% 行番号増分
+  numbersep=1zw,
+  lineskip=-0.5ex,
+  showstringspaces=false % 空白に文字を表示させない
+}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 要編集
+\title{第8回}
+\author{201311367　佐藤良祐}
+\西暦
+\date{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+
+% headers & footers
+\lhead{ソフトウェア技法　\@title　\@author \@date}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage /\pageref{LastPage}}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\makeatother
+
+\begin{document}
+\section*{課題8.1}
+(1), (2)を両方まとめてのせる.
+
+\lstinputlisting[]{./kadai81.ml}
+
+\subsection*{(1)}
+\begin{lstlisting}
+# exp2string (PRIMexp (PLUSop, INTexp 1, FLOATexp 2.0));;
+- : string = "(1+2.)"
+# exp2string (LETexp ("x", INTexp 1, PRIMexp (MULop, VARexp "x", VARexp "x")));;
+- : string = "let x=1 in (x*x)"
+\end{lstlisting}
+\subsection*{(2)}
+\begin{lstlisting}
+# eval [] (PRIMexp (PLUSop, INTexp 1, FLOATexp 1.5));;
+- : value = FLOATval 2.5
+# eval [] (LETexp ("x", INTexp 2, PRIMexp (MULop, VARexp "x", VARexp "x")));;
+- : value = INTval 4
+\end{lstlisting}
+\newpage
+\section*{課題8.2}
+実行サンプルもソースコードに埋め込んであるので以下のようにすぐ実行できる.
+\lstinputlisting[]{./kadai82.ml}
+\begin{lstlisting}
+# eval [] exp1;;
+- : value = INTval 3
+# eval [] (sum 4);;
+- : value = INTval 10
+\end{lstlisting}
+\end{document}
