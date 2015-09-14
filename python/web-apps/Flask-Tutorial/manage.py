@@ -1,4 +1,13 @@
 # Flaskrを起動して実行するためのファイル
-from flaskr import app
+from flaskr import app, db
+from flask.ext.script import Manager
 
-app.run(host='127.0.0.1', port=5000, debug=True)
+manager = Manager(app)
+
+
+@manager.command
+def init_db():
+    db.create_all()
+
+if __name__ == "__main__":
+    manager.run()
