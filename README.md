@@ -12,6 +12,7 @@ jtwp470's programming history or introduction of programming language.
 * Emacs Lisp
 * Swift (NOT including Objective-C)
 * Scala
+* Go
 
 Descriptions will be written in Japanese. If you don't know Japanese, Please see [Japanese language](http://en.wikipedia.org/wiki/Japanese_language) or use the machine translation. (e.g. http://translate.google.com)
 
