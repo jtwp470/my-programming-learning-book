@@ -10,6 +10,7 @@
     <ul id="messages"></ul>
     WebSocketを使ったチャットアプリケーション
     <form id="chatbox">
+      {{.UserData.name}}:</br>
       <textarea></textarea>
       <input type="submit" value="送信" />
     </form>
@@ -27,9 +28,9 @@
         alert("エラー: WebSocket接続が行われていません。");
         return false;
       }
-      socket.send(msgBox.val());
-      msgBox.val("");
-      return false;
+        socket.send(JSON.stringify({"Message": msgBox.val()}));
+        msgBox.val("");
+        return false;
     });
     if (!window["WebSocket"]) {
       alert("エラー: WebSocketに対応していないブラウザです。")
@@ -39,7 +40,13 @@
         alert("接続が終了しました。");
       }
       socket.onmessage = function(e) {
-        messages.append($("<li>").text(e.data));
+          var msg = JSON.parse(e.data); // 監訳注を参考にした
+          messages.append(
+              $("<li>").append(
+                  $("<strong>").text(msg.Name + ": "),
+                  $("<span>").text(msg.Message)
+              )
+          )
       }
     }
   });
