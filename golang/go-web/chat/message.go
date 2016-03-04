@@ -7,7 +7,8 @@ import (
 
 // messageは一つのメッセージを表す
 type message struct {
-	Name    string    // ユーザー名
-	Message string    // メッセージ本体
-	When    time.Time // メッセージ送信時刻
+	Name      string    // ユーザー名
+	Message   string    // メッセージ本体
+	When      time.Time // メッセージ送信時刻
+	AvatarURL string
 }

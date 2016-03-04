@@ -24,6 +24,9 @@ func (c *client) read() {
 		if err := c.socket.ReadJSON(&msg); err == nil {
 			msg.When = time.Now()
 			msg.Name = c.userData["name"].(string)
+			if avasterURL, ok := c.userData["avaster_url"]; ok {
+				msg.AvatarURL = avasterURL.(string)
+			}
 			c.room.forward <- msg
 		} else {
 			break
