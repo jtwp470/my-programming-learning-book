@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>アップロード</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-yxFy3Tt84CcGRj9UI7RA25hoUMpUPoFzcdPtK3hBdNgEGnh9FdKgMVM+lbAZTKN2" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-header">
+                <h1>画像アップロード</h1>
+            </div>
+            <form role="form" action="/uploader"
+                  enctype="multipart/form-data" method="post">
+                <input name="userid" type="hidden" value="{{.UserData.userid}}"/>
+                <div class="form-group">
+                    <label for="message">ファイルを選択</label>
+                    <input name="avatarFile" type="file"/>
+                </div>
+                <input type="submit" value="アップロード" class="btn "/>
+            </form>
+        </div>
+    </body>
+</html>

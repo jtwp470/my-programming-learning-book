@@ -75,7 +75,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		io.WriteString(m, strings.ToLower(user.Name()))
 		userID := fmt.Sprintf("%x", m.Sum(nil))
 		authCookieValue := objx.New(map[string]interface{}{
-			"userud":      userID,
+			"userid":      userID,
 			"name":        user.Name(),
 			"avaster_url": user.AvatarURL(),
 			"email":       user.Email(),

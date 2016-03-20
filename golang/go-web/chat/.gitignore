@@ -1,1 +1,8 @@
 chat
+
+*.jpg
+*.png
+*.gif
+*.jpeg
+
+avatars/

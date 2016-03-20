@@ -47,7 +47,8 @@ func main() {
 			"PmCGtQH6CgasJguWBADvvy6h",
 			"http://localhost:8080/auth/callback/google"),
 	)
-	r := newRoom(UseGravatar)
+	// r := newRoom(UseGravatar)
+	r := newRoom(UseFileSystemAvatar)
 	// r.tracer = trace.New(os.Stdout)
 	http.Handle("/", MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/login", &templateHandler{filename: "login.html"})
@@ -62,7 +63,12 @@ func main() {
 		w.WriteHeader(http.StatusTemporaryRedirect)
 	})
 	http.HandleFunc("/auth/", loginHandler)
+	http.HandleFunc("/uploader", uploaderHandler)
 	http.Handle("/room", r)
+	http.Handle("/upload", &templateHandler{filename: "upload.html"})
+	http.Handle("/avatars/",
+		http.StripPrefix("/avatars/",
+			http.FileServer(http.Dir("./avatars"))))
 	// チャットルームを開始
 	go r.run()
 	// Webサーバーを起動する
