@@ -50,3 +50,4 @@ jspm_packages
 
 # lib directory
 lib
+/dist/client-bundle.js*
