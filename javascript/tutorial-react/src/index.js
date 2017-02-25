@@ -2,59 +2,54 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-
-function formatDate(date) {
-  return date.toLocaleDateString();
+function FormattedDate(props) {
+  return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
 }
 
-function Comment(props) {
-  return (
-    <div className="Comment">
-      <UserInfo user={props.author} />
-      <div className="Comment-text">
-        {props.text}
-      </div>
-      <div className="Comment-date">
-        {formatDate(props.date)}
-      </div>
-    </div>
-  );
-}
-
-function Avatar(props) {
-  return (
-    <img className="Avatar"
-      src={props.user.avatarUrl}
-      alt={props.user.name}
-    />
-  );
-}
-
-function UserInfo(props) {
-  return (
-    <div className="UserInfo">
-      <Avatar user={props.user} />
-      <div className="UserInfo-name">
-        {props.user.name}
-      </div>
-    </div>
-  );
-}
-
-const comment = {
-  date: new Date(),
-  text: 'I hope you enjoy learning React',
-  author: {
-    name: 'ryo-san470',
-    avatarUrl: 'https://avatars1.githubusercontent.com/u/5006625?v=3&u=eff862d174cf6c3338ff213c60419743230f9544&s=400'
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
   }
-};
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, World</h1>
+        <FormattedDate date={this.state.date} />
+      </div>
+    );
+  }
+}
+
+function App() {
+  return (
+    <div>
+      <Clock />
+      <Clock />
+      <Clock />
+    </div>
+  );
+}
 
 ReactDOM.render(
-  <Comment
-    date={comment.date}
-    text={comment.text}
-    author={comment.author} />,
+  <App />,
   document.getElementById('root')
 );
-
