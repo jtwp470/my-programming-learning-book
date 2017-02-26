@@ -60,6 +60,13 @@ resource "aws_security_group" "terraform-asg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress = {
+    from_port = 60000
+    to_port = 60010
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress = {
     from_port = 0
     to_port = 0
