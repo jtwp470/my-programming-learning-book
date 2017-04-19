@@ -4,6 +4,35 @@ provider "aws" {
   region = "sa-east-1"
 }
 
+# SSH public key
+resource "aws_key_pair" "ryosan-key" {
+  key_name = "ryosan-key"
+  public_key = "${var.ryosan-key}"
+}
+
+# instance
+resource "aws_instance" "server" {
+  ami = "ami-4090f22c"
+  instance_type = "t2.micro"
+  subnet_id = "${aws_subnet.subnet-1.id}"
+  key_name = "ryosan-key"
+  associate_public_ip_address = false
+  vpc_security_group_ids = [
+    "${aws_security_group.terraform-asg.id}"
+  ]
+
+  private_ip = "10.0.1.10"
+  tags = {
+    Name = "terraform"
+  }
+}
+
+resource "aws_eip" "lb" {
+  instance = "${aws_instance.server.id}"
+  associate_with_private_ip = "10.0.1.10"
+  vpc = true
+}
+
 # VPC
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
