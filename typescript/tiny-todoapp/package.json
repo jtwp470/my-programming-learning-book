@@ -1,0 +1,21 @@
+{
+  "name": "tiny-todoapp",
+  "version": "1.0.0",
+  "description": "Tiny TODO app with TypeScript & Reactjs",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryosuke SATO",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-loader": "^2.0.3",
+    "webpack": "^2.4.1"
+  },
+  "dependencies": {
+    "@types/react": "^15.0.23",
+    "@types/react-dom": "^15.5.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  }
+}
