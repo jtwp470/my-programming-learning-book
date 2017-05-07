@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -11,13 +13,17 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
+                test: /.jsx?$/,
                 exclude: /node_modules/,
-                use: [{ loader: 'babel-loader' }]
+                loader: 'babel-loader'
             },
         ],
     },
     resolve: {
         extensions: ['*', '.js', '.jsx'],
     },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin(),
+        new HtmlWebpackPlugin({template: './public/index.html'})
+    ]
 };

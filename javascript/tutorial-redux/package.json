@@ -4,13 +4,15 @@
   "description": "See the [documentation](http://redux.js.org/docs/basics/)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server",
+    "build": "webpack -p"
   },
   "author": "Ryosuke SATO",
   "license": "MIT",
   "dependencies": {
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
     "redux": "^3.6.0"
   },
   "devDependencies": {
