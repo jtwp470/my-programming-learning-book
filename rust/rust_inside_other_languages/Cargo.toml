@@ -1,0 +1,10 @@
+[package]
+name = "inside_other_languages"
+version = "0.1.0"
+authors = ["Ryosuke Sato <rskjtwp@gmail.com>"]
+
+[lib]
+name = "embed"
+crate-type = ["dylib"]
+
+[dependencies]
