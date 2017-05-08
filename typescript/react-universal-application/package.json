@@ -29,5 +29,12 @@
   },
   "author": "Ryosuke SATO",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "scripts": {
+    "start": "node dist/server/index.js",
+    "build": "npm run build:server && npm run build:front",
+    "build:server": "$(npm bin)/tsc --project .",
+    "build:front": "$(npm bin)/webpack -p",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
