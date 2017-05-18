@@ -109,3 +109,29 @@
         (:posts, :show)       GET    /posts/show/:id
    ```
 
+## JSON API化しだす。
+1. 先程のコントローラー部を書き換え、ビューとしていたHAMLファイルを削除。
+1. ビューが消えたので全部JSONで返ってくる。
+
+   ```bash
+   $ http http://localhost:3000/posts/
+   [
+       {
+           "body": "テキストが色々書けるよー",
+           "created_at": "2017-05-18T05:35:48Z",
+           "id": 1,
+           "title": "タイトルだよ",
+           "updated_at": "2017-05-18T05:35:48Z"
+       }
+   ]
+
+   $ http http://localhost:3000/posts/1
+   {
+       "body": "テキストが色々書けるよー",
+       "created_at": "2017-05-18T05:35:48Z",
+       "id": 1,
+       "title": "タイトルだよ",
+       "updated_at": "2017-05-18T05:35:48Z"
+   }
+   ```
+
