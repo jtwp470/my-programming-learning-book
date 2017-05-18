@@ -14,6 +14,7 @@ jtwp470's programming history or introduction of programming language.
 * [Terraform](./terraform)
 * [Haskell](./haskell)
 * [Rust](./rust)
+* [Ruby](./ruby)
 
 Descriptions will be written in Japanese. If you don't know Japanese, Please see [Japanese language](http://en.wikipedia.org/wiki/Japanese_language) or use the machine translation. (e.g. http://translate.google.com)
 

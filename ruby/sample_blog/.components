@@ -1,0 +1,10 @@
+---
+:orm: activerecord
+:test: rspec
+:mock: none
+:script: none
+:renderer: haml
+:stylesheet: none
+:namespace: SampleBlog
+:migration_format: number
+:admin_renderer: haml
