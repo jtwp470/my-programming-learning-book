@@ -7,10 +7,10 @@ message GCDRequest {
     uint64 b = 2;
 }
 
-message GCFResponse {
+message GCDResponse {
     uint64 result = 1;
 }
 
 service GCDService {
-    rpc Compute (GCDRequest) returns (GCFResponse) {}
+    rpc Compute (GCDRequest) returns (GCDResponse) {}
 }
