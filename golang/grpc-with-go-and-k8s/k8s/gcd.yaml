@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcd-deployment
+  labels:
+    app: gcd
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gcd
+  template:
+    metadata:
+      labels:
+        app: gcd
+    spec:
+      containers:
+      - name: gcd
+        image: local/gcd
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+          name: gcd-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gcd-service
+spec:
+  selector:
+    app: gcd
+  ports:
+  - port: 3000
+    targetPort: gcd-service
